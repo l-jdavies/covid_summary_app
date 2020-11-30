@@ -1,4 +1,5 @@
-require "sintra"
+require "sinatra"
+require "sinatra/reloader"
 
 require_relative 'database_connection'
 require_relative 'download_csv_files'

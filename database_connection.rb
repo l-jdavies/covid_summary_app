@@ -1,5 +1,4 @@
 require 'pg'
-require 'byebug'
 
 class CovidDatabase
   def initialize
