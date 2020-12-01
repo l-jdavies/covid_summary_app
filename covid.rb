@@ -29,8 +29,37 @@ end
 
 def calculate_new_cases
   @current_seven_day_changes = @db.calculate_change_case_numbers("state_current_data", "state_seven_day_data")
+  @previous_seven_day_changes = @db.calculate_change_case_numbers("state_seven_day_data", "state_fourteen_day_data")
+end
 
-  @current_seven_day_changes.each { |x| puts x }
+def calculate_percentage_changes(current_wk, previous_wk)
+  hsh = {}
+  current_wk.each do |key, value|
+    next if key == :id
+
+    if current_wk[key].to_i > previous_wk[key].to_i
+      change = percentage_increase(current_wk[key], previous_wk[key])
+      hsh[key] = "increased by: #{change}%"
+    elsif current_wk[key].to_i < previous_wk[key].to_i
+      change = percentage_decrease(current_wk[key], previous_wk[key])
+      hsh[key] = "decreased by: #{change}%"
+    elsif current_wk[key].to_i == previous_wk[key].to_i
+      hsh[key] = "not changed."
+    else
+      hsh[key] = "no data available."
+    end
+  end
+  hsh
+end
+
+def percentage_increase(current_wk_val, previous_wk_val)
+  percent = ((current_wk_val.to_f - previous_wk_val.to_f) / previous_wk_val.to_f) * 100
+  '%.2f' % percent
+end
+  
+def percentage_decrease(current_wk_val, previous_wk_val)
+  percent = ((previous_wk_val.to_f - current_wk_val.to_f) / previous_wk_val.to_f) * 100
+  '%.2f' % percent
 end
 
 def get_dates
@@ -45,6 +74,15 @@ helpers do
      "The number of individuals currently hospitalized has increased by #{@current_seven_day_changes[:hospitalizations]}",
      "The number of deaths have increased by #{@current_seven_day_changes[:deaths]}",
      "The number of total tests performed has increased by #{@current_seven_day_changes[:total_test_results]}"]
+  end
+
+  def print_percent_change_results
+    percent_changes = calculate_percentage_changes(@current_seven_day_changes, @previous_seven_day_changes)
+
+    ["Positive cases have #{percent_changes[:positive_cases]}",
+    "Individuals currently hospitalized has #{percent_changes[:hospitalizations]}",
+    "Deaths have #{percent_changes[:deaths]}",
+    "Total tests performed have #{percent_changes[:total_test_results]}"]
   end
 end
 
@@ -65,7 +103,7 @@ get "/state" do
   get_dates
 
   @change_results = print_change_results
-
+  @change_percent = print_percent_change_results
   erb :results
 end
 
