@@ -42,7 +42,7 @@ class ObtainCsv
     api = URI(api_address)
 
     URI.open(api) do |data|
-      File.open("/tmp/#{file_name}.csv", "wb") do |file|
+      File.open("#{file_name}.csv", "wb") do |file|
         file.write(data.read)
       end
         end

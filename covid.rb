@@ -22,7 +22,7 @@ def copy_csv_files_to_psql
 end
 
 def calculate_new_cases
-  @current_seven_day_changes = @db.calculate_change_case_numbers("state_current")
+  @current_seven_day_changes = @db.calculate_change_case_numbers("state_current_data", "state_seven_day_data")
 end
 
 
@@ -32,19 +32,14 @@ def analyse(state)
   calculate_new_cases
 end
 
-get "/state" do
-  @state = params[:select_state].upcase
-
-  redirect "/test"
-end
-
-get "/test" do
-  test_method
-end
-
 get "/" do
   
   erb :welcome
 end
 
+get "/state" do
+  @state = params[:select_state].upcase
+
+  analyse(@state)
+end
 
