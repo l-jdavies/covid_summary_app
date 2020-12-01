@@ -38,7 +38,7 @@ class CovidDatabase
     result = @db.exec(sql)
     column_headers = tuple_to_hash(result)
  
-    expected_values = ["1", "positive", "hospitalizedCumulative", "death", "totalTestResults"]
+    expected_values = ["1", "positive", "hospitalizedCurrently", "death", "totalTestResults"]
 
     puts ""
     column_headers.values.each_with_index do |val, idx|
@@ -87,7 +87,7 @@ class CovidDatabase
     @db.exec <<~SQL
       INSERT INTO #{dest_table}
       (positive_cases, hospitalizations, deaths, total_test_results)
-        SELECT col3, col10, col20, col8 FROM tmp
+        SELECT col3, col9, col20, col8 FROM tmp
         ;
         SQL
   end

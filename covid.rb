@@ -1,6 +1,7 @@
 require "sinatra"
 require "sinatra/reloader"
 require "byebug"
+require "tilt/erubis"
 
 require_relative 'database_connection'
 require_relative 'download_csv_files'
@@ -11,6 +12,10 @@ end
 
 after do 
   @db.disconnect
+end
+
+configure do
+  enable :sessions
 end
 
 def download_csv_files(state)
@@ -27,6 +32,14 @@ def calculate_new_cases
   @current_seven_day_changes.each { |x| puts x }
 end
 
+helpers do
+  def print_change_results
+    ["The number of positive cases have increased by #{@current_seven_day_changes[:positive_cases]}",
+     "The number of individuals currently hospitalized has increased by #{@current_seven_day_changes[:hospitalizations]}",
+     "The number of deaths have increased by #{@current_seven_day_changes[:deaths]}",
+     "The number of total tests performed has increased by #{@current_seven_day_changes[:total_test_results]}"]
+  end
+end
 
 def analyse(state)
   download_csv_files(@state)
@@ -41,8 +54,8 @@ end
 
 get "/state" do
   @state = params[:select_state].upcase
-
   analyse(@state)
+  @change_results = print_change_results
 
   erb :results
 end
