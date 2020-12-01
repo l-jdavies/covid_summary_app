@@ -19,7 +19,8 @@ configure do
 end
 
 def download_csv_files(state)
-  @csv = ObtainCsv.new(state).download_state_csv_files
+  @csv = ObtainCsv.new(state)
+  @csv.download_state_csv_files
 end
 
 def copy_csv_files_to_psql
@@ -30,6 +31,12 @@ def calculate_new_cases
   @current_seven_day_changes = @db.calculate_change_case_numbers("state_current_data", "state_seven_day_data")
 
   @current_seven_day_changes.each { |x| puts x }
+end
+
+def get_dates
+  @current_date = @csv.current_date
+  @seven_day_date = @csv.seven_day_date
+  @fourteen_day_date = @csv.fourteen_day_date
 end
 
 helpers do
@@ -55,6 +62,8 @@ end
 get "/state" do
   @state = params[:select_state].upcase
   analyse(@state)
+  get_dates
+
   @change_results = print_change_results
 
   erb :results

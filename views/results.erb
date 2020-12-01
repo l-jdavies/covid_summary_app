@@ -14,11 +14,12 @@
     </header>
     <section>
       <h2>Results</h2>
+      <p><em>The term 'past seven-days' refers to the time period (YYYYMMDD) between <%= @current_date %> and <%= @seven_day_date %> whilst the term 'previous seven-days' refers to the time period between <%= @seven_day_date %> and <%= @fourteen_day_date %>.</em></p>
       <h3>Past seven-days</h3>
       <p>The following changes have occurred in the state of <%= @state %> over the past seven-days:
       <ul class="list-of-parameters">
         <% @change_results.each do |result| %>
-          <li><%= result %></li>
+          <li><%= result %>.</li>
         <% end %>
       </ul>
       <h3>Percentage changes</h3>
@@ -33,7 +34,6 @@
         <li>Day -14, which is 15 days prior to today.</li>
       </ul>
       <p>To determine the changes that have occurred over the last seven-days, the data obtained on Day -7 is subtracted from the data on Day 0. The changes that have occurred over the previous seven-days are calculated by subtracting the data from Day -14 from the data on Day -7.</p>
-      <p>In order to calculate the percentage changes that have occurred
     </section>
   </body>
 </html>
