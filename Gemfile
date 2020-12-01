@@ -10,3 +10,4 @@ gem "csv"
 
 ruby "2.7.2" 
 
+gem "byebug"
