@@ -23,6 +23,8 @@ end
 
 def calculate_new_cases
   @current_seven_day_changes = @db.calculate_change_case_numbers("state_current_data", "state_seven_day_data")
+
+  @current_seven_day_changes.each { |x| puts x }
 end
 
 
