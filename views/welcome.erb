@@ -21,9 +21,66 @@
         <li>Changes in the number of people currently hospitalised</li>
       </ul>
     </section>
-    <form action="/state" method="get">
-      <label for="state_name">Enter state initials</label>
-      <input name="state_name" id="state_name" type="text" value="<%= params[:state_name] %>">
+    <form action="/state" method="GET" class="select-state">
+      <fieldset>
+        <label>
+          Select a USA state to view the seven-day summary data:
+          <select name="select_state">
+            <option value="ak">AK</option>
+            <option value="al">AL</option>
+            <option value="ar">AR</option>
+            <option value="az">AZ</option>
+            <option value="ca">CA</option>
+            <option value="co">CO</option>
+            <option value="ct">CT</option>
+            <option value="dc">DC</option>
+            <option value="de">DE</option>
+            <option value="fl">FL</option>
+            <option value="ga">GA</option>
+            <option value="hi">HI</option>
+            <option value="ia">IA</option>
+            <option value="id">ID</option>
+            <option value="il">IL</option>
+            <option value="in">IN</option>
+            <option value="ks">KS</option>
+            <option value="ky">KY</option>
+            <option value="la">LA</option>
+            <option value="ma">MA</option>
+            <option value="md">MD</option>
+            <option value="me">ME</option>
+            <option value="mi">MI</option>
+            <option value="mn">MN</option>
+            <option value="mo">MO</option>
+            <option value="ms">MS</option>
+            <option value="mt">MT</option>
+            <option value="nc">NC</option>
+            <option value="nd">ND</option>
+            <option value="ne">NE</option>
+            <option value="nh">NH</option>
+            <option value="nj">NJ</option>
+            <option value="nm">NM</option>
+            <option value="nv">NV</option>
+            <option value="ny">NY</option>
+            <option value="oh">OH</option>
+            <option value="ok">OK</option>
+            <option value="or">OR</option>
+            <option value="pa">PA</option>
+            <option value="ri">RI</option>
+            <option value="sc">SC</option>
+            <option value="sd">SD</option>
+            <option value="tn">TN</option>
+            <option value="tx">TX</option>
+            <option value="ut">UT</option>
+            <option value="va">VA</option>
+            <option value="vt">VT</option>
+            <option value="wa">WA</option>
+            <option value="wi">WI</option>
+            <option value="wv">WV</option>
+            <option value="wy">WY</option>
+          </select>
+        </label>
+        <input class="submit-button"type="submit" value="Submit" />
+      </fieldset>
     </form>
   </body>
 </html>

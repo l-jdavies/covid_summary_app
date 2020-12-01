@@ -13,26 +13,38 @@ after do
   @db.disconnect
 end
 
-get "/state" do
-  @state = params[:state_name].upcase
+def download_csv_files(state)
+  @csv = ObtainCsv.new(state).download_state_csv_files
+end
 
-  redirect "/results?state_name=#{@state}"
+def copy_csv_files_to_psql
+  @db.setup_tables_data
+end
+
+def calculate_new_cases
+  @current_seven_day_changes = @db.calculate_change_case_numbers("state_current")
+end
+
+
+def analyse(state)
+  download_csv_files(@state)
+  copy_csv_files_to_psql
+  calculate_new_cases
+end
+
+get "/state" do
+  @state = params[:select_state].upcase
+
+  redirect "/test"
+end
+
+get "/test" do
+  test_method
 end
 
 get "/" do
   
   erb :welcome
-end
-
-get "/results" do
-  params[:test] = params['state_name']
-
-  @state = params[:test]
-  redirect "/testing"
-end
-
-get "/testing" do
-  byebug
 end
 
 
