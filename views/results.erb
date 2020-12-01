@@ -14,12 +14,15 @@
     </header>
     <section>
       <h2>Results</h2>
+      <h3>Past seven-days</h3>
       <p>The following changes have occurred in the state of <%= @state %> over the past seven-days:
       <ul class="list-of-parameters">
         <% @change_results.each do |result| %>
           <li><%= result %></li>
         <% end %>
       </ul>
+      <h3>Percentage changes</h3>
+      <p>The changes that have occurred in <%= @state %> over the past seven-days differ from the previous seven-days by the following percent:</p>
     </section>
     <section>
       <h2>How the results are calculated</h2>
