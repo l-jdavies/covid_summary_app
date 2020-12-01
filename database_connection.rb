@@ -34,7 +34,7 @@ class CovidDatabase
   # check the columns contains the expected data - covid tracking could change the column numbers (this should be improved)
   # I'll just validate one table - assuming that if csv files have been altered then all tables will be affected
   def validate_column_contents
-    sql = ("SELECT * FROM hi_current_data WHERE id = 1")
+    sql = ("SELECT * FROM state_current_data WHERE id = 1")
     result = @db.exec(sql)
     column_headers = tuple_to_hash(result)
  
@@ -62,17 +62,9 @@ class CovidDatabase
   end
 
   def copy_all_files_from_csv
-    copy_from_csv('./csv/hi_current.csv', 'hi_current_data')
-    copy_from_csv('./csv/hi_seven_day.csv', 'hi_seven_day_data')
-    copy_from_csv('./csv/hi_fourteen_day.csv', 'hi_fourteen_day_data')
-
-    copy_from_csv('./csv/ak_current.csv', 'ak_current_data')
-    copy_from_csv('./csv/ak_seven_day.csv', 'ak_seven_day_data')
-    copy_from_csv('./csv/ak_fourteen_day.csv', 'ak_fourteen_day_data')
-
-    copy_from_csv('./csv/gu_current.csv', 'gu_current_data')
-    copy_from_csv('./csv/gu_seven_day.csv', 'gu_seven_day_data')
-    copy_from_csv('./csv/gu_fourteen_day.csv', 'gu_fourteen_day_data')
+    copy_from_csv('./tmp/state_current.csv', 'state_current_data')
+    copy_from_csv('./tmp/state_seven_day.csv', 'state_seven_day_data')
+    copy_from_csv('./tmp/state_fourteen_day.csv', 'state_fourteen_day_data')
   end
 
 
@@ -80,7 +72,7 @@ class CovidDatabase
   # I'll create a tmp table in sql into which all data from the csv file will be copied
   # Then I'll copy the required columns from the temp table into my final tables
   def copy_from_csv(csv_file, dest_table)
-    create_table('temp_schema.sql')
+    create_table('/pgsql/temp_schema.sql')
     @db.copy_data("COPY tmp FROM STDIN CSV") do
       File.foreach(csv_file, 'r').each do |line|
         begin
@@ -101,9 +93,7 @@ class CovidDatabase
   end
 
   def create_all_tables
-   create_table('hi_schema.sql')
-   create_table('ak_schema.sql')
-   create_table('gu_schema.sql')
+   create_table('/pgsql/state_schema.sql')
   end
 
   def create_table(schema)
