@@ -43,5 +43,7 @@ get "/state" do
   @state = params[:select_state].upcase
 
   analyse(@state)
+
+  erb :results
 end
 
