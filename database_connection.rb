@@ -2,8 +2,12 @@ require 'pg'
 
 class CovidDatabase
   def initialize
-    @db = PG.connect(dbname: 'covid') 
-  end
+    @db = if Sinatra::Base.production?
+            PG.connect(ENV['DATABASE_URL'])
+          else
+            PG.connect(dbname: 'covid')
+          end
+        end
 
   def setup_tables_data
     create_state_table
