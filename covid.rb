@@ -1,6 +1,5 @@
 require "sinatra"
-require "sinatra/reloader"
-require "byebug"
+require "sinatra/reloader" if development?
 require "tilt/erubis"
 
 require_relative 'database_connection'

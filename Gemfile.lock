@@ -1,15 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    byebug (11.1.3)
     csv (3.1.9)
     date (2.0.0)
     erubis (2.7.0)
     multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    nio4r (2.5.4)
     open-uri (0.1.0)
     pg (1.2.3)
+    puma (5.1.0)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
@@ -31,12 +33,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   csv
   date (~> 2.0.0)
   erubis
   open-uri
   pg
+  puma
   sinatra
   sinatra-contrib
 
