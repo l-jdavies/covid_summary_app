@@ -70,18 +70,33 @@ end
 helpers do
   def print_change_results
     ["The number of positive cases have increased by #{@current_seven_day_changes[:positive_cases]}",
-     "The number of individuals currently hospitalized has increased by #{@current_seven_day_changes[:hospitalizations]}",
+     "The number of individuals currently hospitalized have #{change_hospitalization_results}",
      "The number of deaths have increased by #{@current_seven_day_changes[:deaths]}",
-     "The number of total tests performed has increased by #{@current_seven_day_changes[:total_test_results]}"]
+     "The number of total tests performed have increased by #{@current_seven_day_changes[:total_test_results]}"]
+  end
+
+  def change_hospitalization_results
+    if @current_seven_day_changes[:hospitalizations][0] == '-'
+      @hospitalizations_neg = true
+      "decreased by #{@current_seven_day_changes[:hospitalizations].delete_prefix('-')}"
+    else
+      "increased by #{@current_seven_day_changes[:hospitalizations]}"
+    end
   end
 
   def print_percent_change_results
     percent_changes = calculate_percentage_changes(@current_seven_day_changes, @previous_seven_day_changes)
 
-    ["Positive cases have #{percent_changes[:positive_cases]}",
-    "Individuals currently hospitalized has #{percent_changes[:hospitalizations]}",
-    "Deaths have #{percent_changes[:deaths]}",
-    "Total tests performed have #{percent_changes[:total_test_results]}"]
+    if @hospitalizations_neg
+      ["Positive cases have #{percent_changes[:positive_cases]}",
+      "Deaths have #{percent_changes[:deaths]}",
+      "Total tests performed have #{percent_changes[:total_test_results]}"]
+    else
+      ["Positive cases have #{percent_changes[:positive_cases]}",
+      "Individuals currently hospitalized have #{percent_changes[:hospitalizations]}",
+      "Deaths have #{percent_changes[:deaths]}",
+      "Total tests performed have #{percent_changes[:total_test_results]}"]
+    end
   end
 end
 
