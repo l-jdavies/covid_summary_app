@@ -196,7 +196,8 @@ class CovidDatabase
         col52 text,
         col53 text,
         col54 text,
-        col55 text
+        col55 text,
+        col56 text
       );
       SQL
   end
